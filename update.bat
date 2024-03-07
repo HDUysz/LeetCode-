@@ -15,4 +15,4 @@ git pull
 REM 推送代码到远程的 master 分支
 git push origin main
 
-echo 更新完成!
+echo update successful!
