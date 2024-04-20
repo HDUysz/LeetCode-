@@ -12,20 +12,19 @@ using namespace std;
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-      int j = 0;
-      int i = 0;
-      vector<int> sub_str(26);
-      while (j < s.size()) {
-        sub_str[s[j] - 'a']++;
-        if (sub_str[s[j] - 'a'] == 1) {
-          j++;
-        } else {
-          sub_str[s[i] - 'a']--;
-          sub_str[s[j] - 'a']--;
-          i++;
-          j++;
+        unordered_map<char, int> charIndexMap;
+        int window_size = 0;
+        for (int start = 0, end = 0; end < s.length(); ++end) {
+            char currentChar = s[end];
+            // 如果当前字符之前出现过，并且上次出现位置在窗口内，调整窗口的左边界
+            if (charIndexMap.find(currentChar) != charIndexMap.end() && charIndexMap[currentChar] >= start) {
+                start = charIndexMap[currentChar] + 1;
+            }
+            // 更新字符的最后出现位置
+            charIndexMap[currentChar] = end;
+            // 更新最长子串长度
+            window_size = max(window_size, end - start + 1);
         }
-      }
-      return j - i + 1;
+        return window_size;
     }
 };
